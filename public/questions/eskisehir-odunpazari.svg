@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="640" viewBox="0 0 1024 640">
+  <rect width="1024" height="640" fill="#120407"/>
+  <image href="./eskisehir-odunpazari.jpg" x="0" y="0" width="1024" height="640" preserveAspectRatio="xMidYMid slice"/>
+  <rect width="1024" height="90" fill="url(#overlay)" opacity="0.96"/>
+  <defs>
+    <linearGradient id="overlay" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c0709"/>
+      <stop offset="100%" stop-color="#3b0c12"/>
+    </linearGradient>
+  </defs>
+  <text x="38" y="52" fill="#fff2e5" font-family="Segoe UI, Arial, sans-serif" font-size="34" font-weight="700">OdunpazarÄ± Evleri</text>
+  <text x="38" y="84" fill="#ffc88d" font-family="Segoe UI, Arial, sans-serif" font-size="20">Kultur ve Turizm Toplulugu</text>
+</svg>

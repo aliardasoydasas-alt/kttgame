@@ -1,0 +1,8 @@
+node_modules/
+dist/
+dist-electron/
+release/
+release-v*/
+devserver.log
+PROJECT_CODE_WITH_FILENAMES.md
+PROJECT_ASSET_LIST.txt

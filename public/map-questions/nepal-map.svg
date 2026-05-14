@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Ulke haritasi">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffdf8"/>
+      <stop offset="100%" stop-color="#fff3d2"/>
+    </linearGradient>
+    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#b58f42" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect x="22" y="22" width="856" height="556" rx="34" fill="url(#paper)" stroke="#e3d0a7" stroke-width="2"/>
+  <g filter="url(#mapShadow)">
+    <path d="M 820.94 349.64 L 813.76 389.69 L 826.00 448.78 L 815.35 485.59 L 737.90 487.15 L 626.02 465.47 L 554.17 456.62 L 500.53 409.31 L 373.06 397.26 L 251.77 345.09 L 164.09 299.46 L 74.00 264.27 L 110.11 177.29 L 169.12 135.10 L 207.67 112.85 L 282.23 141.45 L 376.11 202.04 L 428.37 215.38 L 459.58 260.05 L 531.84 278.38 L 607.32 319.23 L 712.52 340.55 L 820.94 349.64 Z" fill="#201813" stroke="#d52830" stroke-width="8" stroke-linejoin="round" fill-rule="evenodd"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Ulke haritasi">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffdf8"/>
+      <stop offset="100%" stop-color="#fff3d2"/>
+    </linearGradient>
+    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#b58f42" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect x="22" y="22" width="856" height="556" rx="34" fill="url(#paper)" stroke="#e3d0a7" stroke-width="2"/>
+  <g filter="url(#mapShadow)">
+    <path d="M 762.92 198.65 L 746.71 244.06 L 826.00 291.92 L 734.77 345.44 L 532.35 393.53 L 471.87 406.33 L 379.49 395.99 L 183.69 373.78 L 252.78 342.77 L 100.04 308.45 L 224.29 294.85 L 221.28 274.25 L 74.00 257.92 L 121.41 212.22 L 227.77 201.84 L 337.14 249.44 L 443.76 211.23 L 532.06 231.07 L 646.49 193.67 L 762.92 198.65 Z" fill="#201813" stroke="#d52830" stroke-width="8" stroke-linejoin="round" fill-rule="evenodd"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="Ulke haritasi">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#fffdf8"/>
+      <stop offset="100%" stop-color="#fff3d2"/>
+    </linearGradient>
+    <filter id="mapShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="12" stdDeviation="14" flood-color="#b58f42" flood-opacity="0.16"/>
+    </filter>
+  </defs>
+  <rect x="22" y="22" width="856" height="556" rx="34" fill="url(#paper)" stroke="#e3d0a7" stroke-width="2"/>
+  <g filter="url(#mapShadow)">
+    <path d="M 539.27 88.31 L 548.11 102.49 L 556.36 124.50 L 561.73 164.60 L 570.36 180.19 L 567.05 196.18 L 561.16 205.98 L 549.84 186.45 L 543.57 196.31 L 549.93 221.01 L 546.97 235.14 L 537.77 242.84 L 535.67 271.07 L 522.54 309.93 L 506.10 355.86 L 485.51 419.01 L 472.74 465.35 L 457.68 504.01 L 430.57 511.90 L 401.47 526.00 L 382.28 517.49 L 355.82 505.57 L 346.62 487.98 L 344.42 458.43 L 332.68 431.86 L 329.64 407.87 L 335.61 383.84 L 350.95 378.07 L 351.04 366.98 L 366.97 341.71 L 369.97 320.48 L 362.24 304.70 L 355.93 283.68 L 353.26 252.97 L 364.91 234.32 L 369.38 213.18 L 385.99 211.95 L 404.58 205.12 L 416.92 199.09 L 431.56 198.64 L 450.56 179.65 L 477.99 159.12 L 487.99 142.35 L 483.45 128.11 L 497.61 132.11 L 515.99 108.95 L 516.60 88.91 L 527.64 74.00 L 539.27 88.31 Z" fill="#201813" stroke="#d52830" stroke-width="8" stroke-linejoin="round" fill-rule="evenodd"/>
+  </g>
+</svg>
