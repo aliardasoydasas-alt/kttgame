@@ -1,6 +1,6 @@
 import { COUNTRY_MAP_QUESTION_BANK } from "../../electron/generated/country-map-question-bank";
 import { DEFAULT_QUESTION_BANK } from "../../electron/generated/question-bank";
-import { EVENT_CARDS, PENALTY_WHEEL_OPTIONS, REWARD_WHEEL_OPTIONS } from "../constants";
+import { EVENT_CARDS, LEGACY_REWARD_WHEEL_OPTIONS, PENALTY_WHEEL_OPTIONS, REWARD_WHEEL_OPTIONS } from "../constants";
 import type { AppDatabase, EventCardItem, GameMode, ParticipantRecord, QuestionItem, RewardOption, SettingsState, WheelOptionsUpdate } from "../types";
 import { calculateNetCorrect } from "../utils/quiz";
 
@@ -10,6 +10,12 @@ type QuizApiShape = typeof window.quizApi;
 
 function cloneWheelOptions(options: RewardOption[]) {
   return options.map((option) => ({ ...option }));
+}
+
+function buildWheelPresetSignature(options: RewardOption[]) {
+  return options
+    .map((option) => [option.id, option.label, option.shortLabel, option.weight, option.segmentCount, option.tone].join("|"))
+    .join("::");
 }
 
 function cloneEventCards(eventCards: EventCardItem[]) {
@@ -113,6 +119,18 @@ function normalizeWheelOptions(options: RewardOption[] | undefined, fallback: Re
   return normalized.length ? normalized : cloneWheelOptions(fallback);
 }
 
+function migrateLegacyRewardWheelOptions(options: RewardOption[] | undefined) {
+  const normalized = normalizeWheelOptions(options, REWARD_WHEEL_OPTIONS, "reward");
+  const signature = buildWheelPresetSignature(normalized);
+  const legacySignature = buildWheelPresetSignature(LEGACY_REWARD_WHEEL_OPTIONS);
+
+  if (signature === legacySignature) {
+    return cloneWheelOptions(REWARD_WHEEL_OPTIONS);
+  }
+
+  return normalized;
+}
+
 function createBrowserDefaultDatabase(): AppDatabase {
   return {
     participants: [],
@@ -138,16 +156,20 @@ function readBrowserDatabase() {
   try {
     const parsed = JSON.parse(raw) as AppDatabase;
     const defaults = createBrowserDefaultDatabase();
-    return {
+    const normalized = {
       ...defaults,
       ...parsed,
       participants: normalizeParticipants(sortParticipants(parsed.participants ?? [])),
       questions: ensureQuestionModes(parsed.questions ?? [], defaults.questions),
       eventCards: normalizeEventCards(parsed.eventCards, defaults.eventCards),
-      rewardWheelOptions: normalizeWheelOptions(parsed.rewardWheelOptions, defaults.rewardWheelOptions, "reward"),
+      rewardWheelOptions: migrateLegacyRewardWheelOptions(parsed.rewardWheelOptions),
       penaltyWheelOptions: normalizeWheelOptions(parsed.penaltyWheelOptions, defaults.penaltyWheelOptions, "penalty"),
       settings: { ...defaults.settings, ...(parsed.settings ?? {}) }
     };
+    if (JSON.stringify(parsed) !== JSON.stringify(normalized)) {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized));
+    }
+    return normalized;
   } catch {
     const fallback = createBrowserDefaultDatabase();
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(fallback));

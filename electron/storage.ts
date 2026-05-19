@@ -2,7 +2,7 @@ import type { AppDatabase, EventCardItem, GameMode, ImportPayload, ParticipantRe
 import { COUNTRY_MAP_QUESTION_BANK } from "./generated/country-map-question-bank";
 import { DEFAULT_QUESTION_BANK } from "./generated/question-bank";
 
-const DEFAULT_REWARD_WHEEL_OPTIONS: RewardOption[] = [
+const LEGACY_REWARD_WHEEL_OPTIONS: RewardOption[] = [
   { id: "reward-sticker", label: "Sticker", shortLabel: "STK", weight: 30, segmentCount: 6, tone: "#ff5f45" },
   { id: "reward-canta", label: "Canta", shortLabel: "CNT", weight: 10, segmentCount: 2, tone: "#ff9f1c" },
   { id: "reward-kalemlik", label: "Kalemlik", shortLabel: "KLM", weight: 10, segmentCount: 2, tone: "#ffd166" },
@@ -14,6 +14,18 @@ const DEFAULT_REWARD_WHEEL_OPTIONS: RewardOption[] = [
   { id: "reward-pass-2", label: "Pass", shortLabel: "PAS", weight: 1, segmentCount: 1, tone: "#b5179e" },
   { id: "reward-tekrar-cevir-1", label: "Tekrar Cevir", shortLabel: "TKR", weight: 10, segmentCount: 2, tone: "#577590" },
   { id: "reward-tekrar-cevir-2", label: "Tekrar Cevir", shortLabel: "TKR", weight: 10, segmentCount: 2, tone: "#4361ee" }
+];
+
+const DEFAULT_REWARD_WHEEL_OPTIONS: RewardOption[] = [
+  { id: "reward-pablo-10", label: "PABLO %10 INDIRIM", shortLabel: "PBL10", weight: 30, segmentCount: 6, tone: "#ff0000" },
+  { id: "reward-pablo-15", label: "PABLO %15 INDIRIM", shortLabel: "PBL15", weight: 10, segmentCount: 4, tone: "#8a0000" },
+  { id: "reward-pablo-20", label: "PABLO %20 INDIRIM", shortLabel: "PBL20", weight: 10, segmentCount: 2, tone: "#4d0000" },
+  { id: "reward-ktt-tour", label: "KTT TUR INDIRIMI", shortLabel: "KTTUR", weight: 1, segmentCount: 1, tone: "#ffffff" },
+  { id: "reward-gezipol-tour", label: "GEZIPOL TUR INDIRIMI", shortLabel: "GZP10", weight: 10, segmentCount: 5, tone: "#ff9f1c" },
+  { id: "reward-ktt-bag", label: "KTT BEZ CANTA", shortLabel: "CANTA", weight: 6, segmentCount: 2, tone: "#616161" },
+  { id: "reward-ktt-pencil-case", label: "KTT KALEMLIK", shortLabel: "KLMLK", weight: 6, segmentCount: 2, tone: "#1aff6a" },
+  { id: "reward-pen-topper", label: "KALEM BASLIGI", shortLabel: "KLMBS", weight: 2, segmentCount: 1, tone: "#ff9f1c" },
+  { id: "reward-sticker", label: "Sticker", shortLabel: "STCKR", weight: 25, segmentCount: 1, tone: "#ff9f1c" }
 ];
 
 const DEFAULT_PENALTY_WHEEL_OPTIONS: RewardOption[] = [
@@ -41,6 +53,12 @@ function calculateNetCorrect(correctCount: number, wrongCount: number) {
 
 function cloneWheelOptions(options: RewardOption[]) {
   return options.map((option) => ({ ...option }));
+}
+
+function buildWheelPresetSignature(options: RewardOption[]) {
+  return options
+    .map((option) => [option.id, option.label, option.shortLabel, option.weight, option.segmentCount, option.tone].join("|"))
+    .join("::");
 }
 
 function cloneEventCards(eventCards: EventCardItem[]) {
@@ -152,6 +170,18 @@ export function normalizeWheelOptions(options: RewardOption[] | undefined, fallb
 
   if (!normalized.length) {
     return cloneWheelOptions(fallback);
+  }
+
+  return normalized;
+}
+
+export function migrateLegacyRewardWheelOptions(options: RewardOption[] | undefined) {
+  const normalized = normalizeWheelOptions(options, DEFAULT_REWARD_WHEEL_OPTIONS, "reward");
+  const signature = buildWheelPresetSignature(normalized);
+  const legacySignature = buildWheelPresetSignature(LEGACY_REWARD_WHEEL_OPTIONS);
+
+  if (signature === legacySignature) {
+    return cloneWheelOptions(DEFAULT_REWARD_WHEEL_OPTIONS);
   }
 
   return normalized;
@@ -273,7 +303,7 @@ export function parseImportPayload(raw: string): ImportPayload {
     questions: parsed.questions ? normalizeQuestions(parsed.questions, buildDefaultQuestionBank()) : undefined,
     eventCards: parsed.eventCards ? normalizeEventCards(parsed.eventCards, DEFAULT_EVENT_CARDS) : undefined,
     rewardWheelOptions: parsed.rewardWheelOptions
-      ? normalizeWheelOptions(parsed.rewardWheelOptions, DEFAULT_REWARD_WHEEL_OPTIONS, "reward")
+      ? migrateLegacyRewardWheelOptions(parsed.rewardWheelOptions)
       : undefined,
     penaltyWheelOptions: parsed.penaltyWheelOptions
       ? normalizeWheelOptions(parsed.penaltyWheelOptions, DEFAULT_PENALTY_WHEEL_OPTIONS, "penalty")

@@ -5,6 +5,7 @@ import { existsSync } from "node:fs";
 import {
   createDefaultDatabase,
   ensureQuestionModes,
+  migrateLegacyRewardWheelOptions,
   normalizeEventCards,
   normalizeParticipants,
   normalizeQuestions,
@@ -66,11 +67,14 @@ async function ensureDatabase(): Promise<AppDatabase> {
       participants: sortLeaderboard(normalizeParticipants(parsed.participants ?? [])),
       questions: ensureQuestionModes(parsed.questions ?? [], defaults.questions),
       eventCards: normalizeEventCards(parsed.eventCards, defaults.eventCards),
-      rewardWheelOptions: normalizeWheelOptions(parsed.rewardWheelOptions, defaults.rewardWheelOptions, "reward"),
+      rewardWheelOptions: migrateLegacyRewardWheelOptions(parsed.rewardWheelOptions),
       penaltyWheelOptions: normalizeWheelOptions(parsed.penaltyWheelOptions, defaults.penaltyWheelOptions, "penalty"),
       settings: { ...defaults.settings, ...(parsed.settings ?? {}) }
     };
     databaseCache = normalized;
+    if (JSON.stringify(parsed) !== JSON.stringify(normalized)) {
+      await persistDatabase(normalized);
+    }
     return normalized;
   } catch {
     const fallback = createDefaultDatabase();
