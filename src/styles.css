@@ -1117,10 +1117,17 @@ select.text-input {
   box-shadow: var(--shadow);
 }
 
+.question-image-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .question-image {
   width: 100%;
-  min-height: 500px;
-  object-fit: cover;
+  height: min(58vh, 520px);
+  min-height: 360px;
+  object-fit: contain;
   border-radius: 22px;
   background: rgba(255, 248, 230, 0.8);
 }
@@ -1995,5 +2002,61 @@ select.text-input {
 
   .admin-scroll-region {
     max-height: none;
+  }
+
+  .question-image-panel,
+  .question-copy {
+    padding: 16px;
+    border-radius: 22px;
+  }
+
+  .question-image {
+    height: min(42vh, 340px);
+    min-height: 220px;
+  }
+
+  .question-copy h2 {
+    font-size: 1.55rem;
+  }
+
+  .answer-button {
+    min-height: 92px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .quiz-layout {
+    gap: 14px;
+  }
+
+  .question-card {
+    gap: 14px;
+  }
+
+  .question-image-panel,
+  .question-copy {
+    padding: 14px;
+    border-radius: 20px;
+  }
+
+  .question-image {
+    height: min(36vh, 280px);
+    min-height: 180px;
+  }
+
+  .question-copy h2 {
+    font-size: 1.3rem;
+    line-height: 1.25;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .answer-button {
+    min-height: 78px;
+    padding: 14px;
   }
 }

@@ -33,13 +33,13 @@ export const GAME_MODE_META: Record<
 };
 
 export const EVENT_CARDS: EventCardItem[] = [
-  { id: "event-aquarium", title: "Akvaryum Turu", image: "/questions/ha-long-bay.jpg" },
-  { id: "event-cinema", title: "Sinema Etkinligi", image: "/questions/sydney-opera-house.jpg" },
-  { id: "event-fethiye", title: "Fethiye Turu", image: "/questions/oludeniz.jpg" },
-  { id: "event-pamukkale", title: "Pamukkale Turu", image: "/questions/pamukkale-travertenleri.jpg" },
-  { id: "event-eskisehir", title: "Eskisehir Turu", image: "/questions/eskisehir-odunpazari.jpg" },
-  { id: "event-quiz", title: "Quiz Night", image: "/questions/galata-kulesi.jpg" },
-  { id: "event-speaking", title: "Speaking Club", image: "/questions/big-ben.jpg" }
+  { id: "event-aquarium", title: "Akvaryum Turu", image: "/home-events/akvaryum-turu.png" },
+  { id: "event-cinema", title: "Sinema Etkinligi", image: "/home-events/sinema-etkinligi.jpg" },
+  { id: "event-fethiye", title: "Fethiye Turu", image: "/home-events/fethiye-turu.jpg" },
+  { id: "event-pamukkale", title: "Pamukkale Turu", image: "/home-events/pamukkale-turu.jpg" },
+  { id: "event-eskisehir", title: "Eskisehir Turu", image: "/home-events/eskisehir-turu.png" },
+  { id: "event-quiz", title: "Quiz Night", image: "/home-events/quiz-night.png" },
+  { id: "event-speaking", title: "Speaking Club", image: "/home-events/speaking-club.png" }
 ];
 
 export const REWARD_WHEEL_OPTIONS: RewardOption[] = [

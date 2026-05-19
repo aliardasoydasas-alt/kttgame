@@ -22,13 +22,13 @@ const DEFAULT_PENALTY_WHEEL_OPTIONS: RewardOption[] = [
 ];
 
 const DEFAULT_EVENT_CARDS: EventCardItem[] = [
-  { id: "event-aquarium", title: "Akvaryum Turu", image: "/questions/ha-long-bay.jpg" },
-  { id: "event-cinema", title: "Sinema Etkinligi", image: "/questions/sydney-opera-house.jpg" },
-  { id: "event-fethiye", title: "Fethiye Turu", image: "/questions/oludeniz.jpg" },
-  { id: "event-pamukkale", title: "Pamukkale Turu", image: "/questions/pamukkale-travertenleri.jpg" },
-  { id: "event-eskisehir", title: "Eskisehir Turu", image: "/questions/eskisehir-odunpazari.jpg" },
-  { id: "event-quiz", title: "Quiz Night", image: "/questions/galata-kulesi.jpg" },
-  { id: "event-speaking", title: "Speaking Club", image: "/questions/big-ben.jpg" }
+  { id: "event-aquarium", title: "Akvaryum Turu", image: "/home-events/akvaryum-turu.png" },
+  { id: "event-cinema", title: "Sinema Etkinligi", image: "/home-events/sinema-etkinligi.jpg" },
+  { id: "event-fethiye", title: "Fethiye Turu", image: "/home-events/fethiye-turu.jpg" },
+  { id: "event-pamukkale", title: "Pamukkale Turu", image: "/home-events/pamukkale-turu.jpg" },
+  { id: "event-eskisehir", title: "Eskisehir Turu", image: "/home-events/eskisehir-turu.png" },
+  { id: "event-quiz", title: "Quiz Night", image: "/home-events/quiz-night.png" },
+  { id: "event-speaking", title: "Speaking Club", image: "/home-events/speaking-club.png" }
 ];
 
 function calculatePenaltyBlocks(wrongCount: number) {
@@ -45,6 +45,10 @@ function cloneWheelOptions(options: RewardOption[]) {
 
 function cloneEventCards(eventCards: EventCardItem[]) {
   return eventCards.map((eventCard) => ({ ...eventCard }));
+}
+
+function isLegacyBundledEventImage(image: string) {
+  return image.startsWith("/questions/");
 }
 
 function normalizeGameMode(value?: string | null): GameMode {
@@ -107,7 +111,7 @@ export function normalizeEventCards(eventCards: EventCardItem[] | undefined, fal
     normalized.push({
       id: eventCard.id?.trim() || `event-${index + 1}`,
       title,
-      image: image || fallbackCard.image
+      image: isLegacyBundledEventImage(image) ? fallbackCard.image : image || fallbackCard.image
     });
   }
 

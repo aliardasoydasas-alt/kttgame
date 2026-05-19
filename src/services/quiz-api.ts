@@ -1,6 +1,6 @@
 import { COUNTRY_MAP_QUESTION_BANK } from "../../electron/generated/country-map-question-bank";
 import { DEFAULT_QUESTION_BANK } from "../../electron/generated/question-bank";
-import { PENALTY_WHEEL_OPTIONS, REWARD_WHEEL_OPTIONS } from "../constants";
+import { EVENT_CARDS, PENALTY_WHEEL_OPTIONS, REWARD_WHEEL_OPTIONS } from "../constants";
 import type { AppDatabase, EventCardItem, GameMode, ParticipantRecord, QuestionItem, RewardOption, SettingsState, WheelOptionsUpdate } from "../types";
 import { calculateNetCorrect } from "../utils/quiz";
 
@@ -14,6 +14,10 @@ function cloneWheelOptions(options: RewardOption[]) {
 
 function cloneEventCards(eventCards: EventCardItem[]) {
   return eventCards.map((eventCard) => ({ ...eventCard }));
+}
+
+function isLegacyBundledEventImage(image: string) {
+  return image.startsWith("/questions/");
 }
 
 function normalizeGameMode(value?: string | null): GameMode {
@@ -75,7 +79,7 @@ function normalizeEventCards(eventCards: EventCardItem[] | undefined, fallback: 
     normalized.push({
       id: eventCard.id?.trim() || `event-${index + 1}`,
       title,
-      image: image || fallbackCard.image
+      image: isLegacyBundledEventImage(image) ? fallbackCard.image : image || fallbackCard.image
     });
   }
 
@@ -113,15 +117,7 @@ function createBrowserDefaultDatabase(): AppDatabase {
   return {
     participants: [],
     questions: buildDefaultQuestionBank(),
-    eventCards: [
-      { id: "event-aquarium", title: "Akvaryum Turu", image: "/questions/ha-long-bay.jpg" },
-      { id: "event-cinema", title: "Sinema Etkinligi", image: "/questions/sydney-opera-house.jpg" },
-      { id: "event-fethiye", title: "Fethiye Turu", image: "/questions/oludeniz.jpg" },
-      { id: "event-pamukkale", title: "Pamukkale Turu", image: "/questions/pamukkale-travertenleri.jpg" },
-      { id: "event-eskisehir", title: "Eskisehir Turu", image: "/questions/eskisehir-odunpazari.jpg" },
-      { id: "event-quiz", title: "Quiz Night", image: "/questions/galata-kulesi.jpg" },
-      { id: "event-speaking", title: "Speaking Club", image: "/questions/big-ben.jpg" }
-    ],
+    eventCards: cloneEventCards(EVENT_CARDS),
     rewardWheelOptions: cloneWheelOptions(REWARD_WHEEL_OPTIONS),
     penaltyWheelOptions: cloneWheelOptions(PENALTY_WHEEL_OPTIONS),
     settings: {
